@@ -13,11 +13,16 @@ class Car{
         this.poly = 0;
         this.Ctype = Ctype;
         this.useBrain = Ctype=="AI";
+        this.car_img = new Image()
         if (this.Ctype !="Dummy"){
+            this.car_img.src="./res/TrainCar.png";
             this.sensor = new Sensors(this,sensorRay);
             this.brain = new NN(
                 [this.sensor.rayCount,sensorRay,15,4]
             );
+        }
+        else{
+            this.car_img.src ="./res/TrafficCar.png"; 
         }
         
         this.control = new Control(Ctype);
@@ -28,35 +33,29 @@ class Car{
             this.#move();
             this.poly = this.#carsize();
             this.damage = this.#assessdamage(roadBorders,traffic);
-           
-        }
-        if(this.sensor){
-        this.sensor.update(roadBorders,traffic);
-        const offset = this.sensor.readings.map(s=>{
-            if (s ==null)
-                return -1;
-            else{
-                if (s.offset>0.5)
-                    return 1-s.offset
-                else
-                    return 0.5-s.offset
-            }
-        }
-        );
-        const outputs= NN.feedForward(offset,this.brain)
-
-        if(this.useBrain){
-            this.control.front=outputs[0];
-            this.control.left=outputs[1];
-            this.control.right=outputs[2];
-            this.control.back=outputs[3];
-        }
-
-        }   
+            if(this.sensor){
+                this.sensor.update(roadBorders,traffic);
+                const offset = this.sensor.readings.map(s=>{ 
+                    if (s ==null)
+                        return -1;
+                    else{
+                        if (s.offset>0.5)
+                            return 1-s.offset
+                        else
+                            return 0.5-s.offset
+                    }
+                });
+                const outputs= NN.feedForward(offset,this.brain)
         
+                if(this.useBrain){
+                    this.control.front=outputs[0];
+                    this.control.left=outputs[1];
+                    this.control.right=outputs[2];
+                    this.control.back=outputs[3];
+                }
         
-       
-       
+            }   
+        }
 
     }
 
@@ -99,6 +98,7 @@ class Car{
         });
         return points;
         }
+
     #move(){
         //for speed accleration
         if(this.control.front){
@@ -146,28 +146,11 @@ class Car{
             ctx.globalAlpha = 0.4;
         }
         else{
-            ctx.fillStyle="yellow";
             ctx.globalAlpha = 1;
-            
         }
-        // ctx.beginPath();
-        // ctx.moveTo(this.poly[0].x,this.poly[0].y);
-        // for (let i = 1;i<this.poly.length;i++){
-        //     ctx.lineTo(this.poly[i].x,this.poly[i].y);
-        // }
-        // ctx.fill();
-
-
         ctx.save();
         ctx.translate(this.x,this.y);
         ctx.rotate(-this.angle);
-        var car_img = new Image();
-        if(this.Ctype!="Dummy"){
-            car_img.src="./res/car (1).png";
-        }
-        else{
-            car_img.src="./res/car-vehicle-top-view-design-free-vector-removebg-preview (1).png";
-        }
         // ctx.beginPath();
         // ctx.rect(
         //     -this.width/2,
@@ -176,7 +159,7 @@ class Car{
         //     this.height
         // );
         // ctx.fill();
-        ctx.drawImage(car_img, -this.width/2, -this.height/2,this.width,this.height); 
+        ctx.drawImage(this.car_img, -this.width/2, -this.height/2,this.width,this.height); 
        
         ctx.restore();
 
