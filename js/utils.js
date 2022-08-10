@@ -38,3 +38,28 @@ function polysIntersect(poly1, poly2){
     }
     return false;
 }
+
+function findLocalItems (query) {
+    var i, results = [];
+    for (i in localStorage) {
+      if (localStorage.hasOwnProperty(i)) {
+        if (i.match(query) || (!query && typeof i === 'string')) {
+          value = JSON.parse(localStorage.getItem(i));
+          results.push({key:i,val:value});
+        }
+      }
+    }
+    return results;
+}
+function CreateBrainOptions(){
+    let brains = findLocalItems("Brain");
+    var select = document.getElementById("brains");
+    brains.forEach((e)=>{   
+        var option = document.createElement("option");
+        option.text = e.key ;
+        option.value = JSON.stringify(e.val);
+        select.appendChild(option);
+     });
+}
+
+

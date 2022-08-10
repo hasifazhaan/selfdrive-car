@@ -4,27 +4,14 @@ const op = document.getElementById("opening");
 const emulator = document.getElementById("emulator");
 let animation;
 let bestCar;
+let bname="Brain";
+let generation_level = 0;
 
-function findLocalItems (query) {
-    var i, results = [];
-    for (i in localStorage) {
-      if (localStorage.hasOwnProperty(i)) {
-        if (i.match(query) || (!query && typeof i === 'string')) {
-          value = JSON.parse(localStorage.getItem(i));
-          results.push({key:i,val:value});
-        }
-      }
-    }
-    return results;
-  }
 
 window.onload = function(){
    emulator.style.display="none";
    op.style.display="flex";
    slider = document.querySelectorAll(".slider");
-   const  getinputval = (slider)=>{
-
-   }
 
    for (i=0;i<slider.length;i++){
         slider[i].oninput = function() {
@@ -32,27 +19,15 @@ window.onload = function(){
             output.innerHTML = this.value;
         }
    }
-
-   //brain in localstorage
-   let brains = findLocalItems("bestBrain");
-   brains.forEach((e)=>{
-        var option = document.createElement("option");
-        option.text = e.key ;
-        option.value = JSON.stringify(e.val);
-        var select = document.getElementById("brains");
-        select.appendChild(option);
-     });
-     
-   
-   
-   
-  
+   CreateBrainOptions();
 }
 function start(){
     const sensor_range = parseInt(document.getElementById("sensor_range").innerHTML);
     const population = parseInt(document.getElementById("population").innerHTML);
     const mutate = parseInt(document.getElementById("mutate").innerHTML)/100;
-    const brain = document.getElementById("brains").value == "0" ? false : document.getElementById("brains").value ;
+    const bbrain = document.getElementById("brains")
+    bname = bbrain.options[bbrain.selectedIndex].text
+    const brain = bbrain.value == "0" ? false :bbrain.value ;
     emulator.style.display="flex";
     op.style.display="none";
     
@@ -66,17 +41,19 @@ function Reload(){
     }
     start()
 }
-function Save(brainname = "bestBrain"){
-    Remove(brainname);
+function Save(brainname = bname){
+    // Remove(brainname);
+    if(!bestCar){
+        localStorage.setItem(brainname,"0");
+        return;
+    }
     localStorage.setItem(brainname,JSON.stringify(bestCar.brain));
-    
 }
-function Remove(brainname){
+function Remove(brainname=bname){
     if(findLocalItems(brainname).length){
         localStorage.removeItem(brainname);
     }
-    
-    // Reload();
+    window.location.reload()
 }
 
 function CreateCarz(num,road,sensor_range){
@@ -92,7 +69,7 @@ function CreateTraffic(road){
         new Car(road.getLaneCenter(1),-1000,100,200,"Dummy",2,maxspeed=3),
         new Car(road.getLaneCenter(1),-500,100,200,"Dummy",2,maxspeed=3),
         new Car(road.getLaneCenter(2),-800,100,200,"Dummy",2,maxspeed=4),
-        new Car(road.getLaneCenter(0),-500,100,200,"Dummy",2,maxspeed=1),
+        //new Car(road.getLaneCenter(0),-500,100,200,"Dummy",2,maxspeed=1),
         new Car(road.getLaneCenter(0),-1300,100,200,"Dummy",2,maxspeed=3)
      ];
      return traffic;
@@ -107,7 +84,18 @@ function BestCarNow(cars){
 
 }
 
+//to Work on /...................................
+function fitness(cars){
+    bestCar = cars.find(
+        c=>c.speed == Math.max( ...cars.map(c=>c.speed) )
+        && (
+            c=>c.y == Math.min( ...cars.map(c=>c.y))
+        )
+    );
+    return bestCar;
+}
 function Start_Emulator(sensor_range,population,mutate,brain){
+    generation_level++;
     canvas.width = 500;
     const ctx = canvas.getContext("2d");
     //creating road and car instance
@@ -129,14 +117,13 @@ function Start_Emulator(sensor_range,population,mutate,brain){
     }
     else{
         bestCar = cars[0];
-        let no = findLocalItems("bestBrain").length;
-        let name = "bestBrain"+no;
-        console.log(name);
-        Save(name);
-
+        Save()
         
     }
     const traffic = CreateTraffic(road);
+    let show_brain_name = document.getElementById("show_brain_name")
+    show_brain_name.innerHTML = bname +",<br>"+mutate+","+population+",<br>sensor"+sensor_range+",<br>gen:"+generation_level ;
+
 
 animate();
 

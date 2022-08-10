@@ -18,7 +18,7 @@ class Car{
             this.car_img.src="./res/TrainCar.png";
             this.sensor = new Sensors(this,sensorRay);
             this.brain = new NN(
-                [this.sensor.rayCount,sensorRay,15,4]
+                [this.sensor.rayCount,this.sensor.rayCount*2,4]
             );
         }
         else{
@@ -37,16 +37,13 @@ class Car{
                 this.sensor.update(roadBorders,traffic);
                 const offset = this.sensor.readings.map(s=>{ 
                     if (s ==null)
-                        return -1;
+                        return 0;
                     else{
-                        if (s.offset>0.5)
-                            return 1-s.offset
-                        else
-                            return 0.5-s.offset
+                        return 1-s.offset;
                     }
                 });
                 const outputs= NN.feedForward(offset,this.brain)
-        
+                
                 if(this.useBrain){
                     this.control.front=outputs[0];
                     this.control.left=outputs[1];
