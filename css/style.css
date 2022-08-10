@@ -1,0 +1,78 @@
+:root{
+    --btn-color:rgb(240, 80, 80);;
+}
+body{
+    margin:0;
+    background:rgb(53, 51, 51);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    place-content: center;
+}
+.opening{
+    width: 90%;
+    height: 90%;
+    background-color:rgb(63, 62, 62);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: pointer;
+}
+header{
+width: 100%;
+height: 100%;
+}
+header>h1{
+    margin: 2%;
+    text-align: center;
+}
+.specs{
+    display: block;
+    margin:2%;
+}
+
+
+
+.Container-btn{
+    position: absolute;
+    left:0;
+    background-color: rgba(58, 58, 58,0.4);
+    width: 100%;
+    height: 10pc;
+    top:0px;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.btn{
+    margin: 2%;
+    width: min(30%,300px);
+    height: 50px;
+    border: none;
+    background-color:var(--btn-color);
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.btn:hover{
+    cursor: pointer;
+    background-color: rgb(236, 11, 11);;
+    margin: 3%;
+}
+.btn:active{
+    background-color: green;
+}
+#mycanvas{
+    background-color: rgb(173, 171, 171);
+    height: 100%;
+}

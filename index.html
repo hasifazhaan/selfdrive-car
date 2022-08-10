@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Driving</title>
+    <link rel="stylesheet" href="./css/rangeslider.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+    <div class="opening" id="opening">
+        <header>
+            <h1>
+                Self-Drive Car Emulator
+            </h1>
+            <div class="specs">
+                <h2>
+                    Select Your Specifications.
+                </h2>
+                <div class="slidecontainer">
+                    <p>No Of Sensors</p>
+                    <input type="range" min="3" max="20" value="10" class="slider">
+                    <span id="sensor_range">14</span>
+                </div>
+                <div class="slidecontainer">
+                    <p>Mutation Level</p>
+                    <input type="range" min="0" max="50" value="20" class="slider">
+                    <span id="mutate">20</span>
+                </div>
+                <div class="slidecontainer">
+                    <p>Population</p>
+                    <input type="range" min="1" max="1000" value="150" class="slider">
+                    <span id="population">150</span>
+                </div>
+                <div class="slidecontainer">
+                    <label for="cars">Choose a car brain:</label>
+                    <select id="brains">
+                        <!-- <option value="new">New Brain</option> -->
+
+                    </select>
+                </div>
+
+
+            </div>
+            <div>
+                <button class="btn" onclick="start()">
+                    Click To Start
+                </button>
+
+            </div>
+        </header>
+    </div>
+
+    <div id="emulator">
+        <div class="Container-btn" id="Main-Controls">
+            <button class="btn" onclick="Reload()">Reload</button>
+            <button class="btn" onclick="Save()">Save Brain</button>
+            <button class="btn" onclick="Remove()">Remove Brain</button>
+        </div>
+        <canvas id="mycanvas"></canvas>
+    </div>
+
+    <!-- <div class="container-controls">
+        <div class="slider">
+            <input type="range" min="1" max="100" value="50">
+        </div>
+    </div> -->
+
+    <script src="./js/utils.js"></script>
+    <script src="./js/road.js"></script>
+    <script src="./js/AiNet.js"></script>
+    <script src="./js/control.js"></script>
+    <script src="./js/sensor.js"></script>
+    <script src="./js/car.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
