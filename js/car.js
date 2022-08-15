@@ -12,6 +12,7 @@ class Car{
         this.damage = false;
         this.poly = 0;
         this.Ctype = Ctype;
+        this.takeover=0;
         this.useBrain = Ctype=="AI";
         this.car_img = new Image()
         if (this.Ctype !="Dummy"){
@@ -141,6 +142,7 @@ class Car{
     draw(ctx,drawSensor=false){
         if (this.damage){
             ctx.globalAlpha = 0.4;
+            this.speed=0;
         }
         else{
             ctx.globalAlpha = 1;

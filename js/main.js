@@ -37,6 +37,7 @@ function start(){
 function Reload(){
     //window.location.reload()
     if(animation){
+        canvas.width+=0;
         cancelAnimationFrame(animation);
     }
     start()
@@ -67,10 +68,10 @@ function CreateCarz(num,road,sensor_range){
 function CreateTraffic(road){
     const traffic = [
         new Car(road.getLaneCenter(1),-1000,100,200,"Dummy",2,maxspeed=3),
-        new Car(road.getLaneCenter(1),-500,100,200,"Dummy",2,maxspeed=3),
+        new Car(road.getLaneCenter(2),-500,100,200,"Dummy",2,maxspeed=3),
         new Car(road.getLaneCenter(2),-800,100,200,"Dummy",2,maxspeed=4),
-        //new Car(road.getLaneCenter(0),-500,100,200,"Dummy",2,maxspeed=1),
-        new Car(road.getLaneCenter(0),-1300,100,200,"Dummy",2,maxspeed=3)
+        new Car(road.getLaneCenter(1),-1500,100,200,"Dummy",2,maxspeed=1),
+        new Car(road.getLaneCenter(0),-1900,100,200,"Dummy",2,maxspeed=3)
      ];
      return traffic;
     
@@ -88,9 +89,6 @@ function BestCarNow(cars){
 function fitness(cars){
     bestCar = cars.find(
         c=>c.speed == Math.max( ...cars.map(c=>c.speed) )
-        && (
-            c=>c.y == Math.min( ...cars.map(c=>c.y))
-        )
     );
     return bestCar;
 }
