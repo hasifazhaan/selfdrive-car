@@ -11,57 +11,6 @@
 </head>
 
 <body>
-    <div class="opening" id="opening">
-        <header>
-            <h1>
-                Self-Drive Car Emulator
-            </h1>
-            <div class="specs">
-                <h2>
-                    Select Your Specifications.
-                </h2>
-                <div class="slidecontainer">
-                    <p>No Of Sensors</p>
-                    <input type="range" min="3" max="20" value="14" class="slider">
-                    <span id="sensor_range">14</span>
-                </div>
-                <div class="slidecontainer">
-                    <p>Mutation Level</p>
-                    <input type="range" min="0" max="20" value="3" class="slider">
-                    <span id="mutate">3</span>
-                </div>
-                <div class="slidecontainer">
-                    <p>Population</p>
-                    <input type="range" min="1" max="1000" value="150" class="slider">
-                    <span id="population">100</span>
-                </div>
-                <div class="slidecontainer">
-                    <label for="cars">Choose a car brain:</label>
-                    <select id="brains">
-                        <!-- <option value="0">New Brain</option> -->
-                    </select>
-                    <div class="slidecontainer ">
-                        <div class="newname" id="newname">
-                            <label>Enter Name</label>
-                            <input type="text" id="namevalue">
-                        </div>
-                        <button  class="btn" onclick="newbrainname()">Add New Brain</button>
-                    </div>
-                    
-                    
-                </div>
-
-
-            </div>
-            <div>
-                <button class="btn" onclick="start()">
-                    Click To Start
-                </button>
-
-            </div>
-        </header>
-    </div>
-
     <div id="emulator">
         <div class="Container-btn" id="Main-Controls">
             <button class="btn" onclick="Reload()">Reload</button>
@@ -69,17 +18,7 @@
             <button class="btn" onclick="Remove()">Remove Brain</button>
         </div>
         <canvas id="mycanvas"></canvas>
-        <div class="details">
-            <h1>Brain Name:</h1>
-            <span id="show_brain_name"></span>
-        </div>
     </div>
-
-    <!-- <div class="container-controls">
-        <div class="slider">
-            <input type="range" min="1" max="100" value="50">
-        </div>
-    </div> -->
 
     <script src="./js/utils.js"></script>
     <script src="./js/road.js"></script>
@@ -88,23 +27,7 @@
     <script src="./js/sensor.js"></script>
     <script src="./js/car.js"></script>
     <script src="./js/main.js"></script>
-    <script>
-    function newbrainname(){
-        let ele = document.getElementById('newname');
-        if(ele.style.display!="block")
-        {
-            ele.style.display="block";
-        }
-           
-        else{
-            let name = document.getElementById("namevalue").value;
-            ele.style.display="none";
-            Save(name+" Brain");
-            CreateBrainOptions();
-            
-        }
-    }
-    </script>
+    
 </body>
 
 </html>
