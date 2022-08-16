@@ -9,7 +9,7 @@ let timer = 3000;
 
 window.onload = function(){
     let brain = findLocalItems(bname);
-    Start_Emulator(5,2,0.2,brain);
+    Start_Emulator(5,100,0.2,brain);
    
 }
 
@@ -33,27 +33,40 @@ function CreateCarz(num,road,sensor_range){
     );}
     return carz;
 }
-function GetRandomPosition(){
-    let Lane_no= parseInt(Math.random()*3)
-    let Y = parseInt(Math.random()*(-2000)-200)
-    
-    return([Lane_no,Y])
+function getRandomNumber(arr) {
+    let arr_len = arr.length-1;
+    let rand = Math.floor(Math.random()*arr_len);
+    let randNum = arr[rand];
+    arr.splice(rand,1);
+    return [arr,randNum]
+  }
+  function createArrayOfNumber(start, end,step=300) {
+    let myArray = [];
+    for (let i = start; i <= end; i+=step) {
+      myArray.push(i);
+    }
+    return myArray;
+  }
+
+function GetRandomPosition(carsNo){
+    let numbersArray = createArrayOfNumber(200,3000,400);
+    let Lane_No=[];
+    let Y_pos=[];
+    for(let i=0;i<carsNo;i++){
+        [numbersArray,carPos]= getRandomNumber(numbersArray);
+        Lane_No.push(parseInt(Math.random()*3));
+        Y_pos.push(-carPos);
+    }  
+    return([Lane_No,Y_pos]); 
 }
 
 function CreateTraffic(road){
     let traffic=[];
-    let n=5;
+    let n=15;
+    let [Lane,Y] = GetRandomPosition(n)
     for(let i=0;i<n;i++){
-        let [Lane,Y] = GetRandomPosition()
-        traffic.push(new Car(road.getLaneCenter(Lane),Y,100,200,"Dummy",2,maxspeed=3));
+        traffic.push(new Car(road.getLaneCenter(Lane[i]),Y[i],100,200,"Dummy",0,3));
     }
-    // traffic = [
-    //     new Car(road.getLaneCenter(Lane),Y,100,200,"Dummy",2,maxspeed=3),
-    //     // new Car(road.getLaneCenter(1),-500,100,200,"Dummy",2,maxspeed=3),
-    //     // new Car(road.getLaneCenter(2),-800,100,200,"Dummy",2,maxspeed=4),
-    //     // //new Car(road.getLaneCenter(0),-500,100,200,"Dummy",2,maxspeed=1),
-    //     // new Car(road.getLaneCenter(0),-1300,100,200,"Dummy",2,maxspeed=3)
-    //  ];
      return traffic;
     
 }
@@ -62,8 +75,7 @@ function BestCarNow(cars){
     let bestCar = cars.find(
         c=>c.y == Math.min( ...cars.map(c=>c.y))
     );
-    let b2 = cars[parseInt(Math.random()*(cars.length))]
-    console.log(b2,bestCar)
+    let b2 = cars[parseInt(Math.random()*(cars.length))];
 
     return bestCar
 
