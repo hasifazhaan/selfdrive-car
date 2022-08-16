@@ -70,7 +70,6 @@ header>h1{
 .btn:hover{
     cursor: pointer;
     background-color: rgb(236, 11, 11);;
-    margin: 3%;
 }
 .btn:active{
     background-color: green;

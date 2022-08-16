@@ -12,6 +12,7 @@ class Car{
         this.damage = false;
         this.poly = 0;
         this.Ctype = Ctype;
+        this.score=0;
         this.useBrain = Ctype=="AI";
         this.car_img = new Image()
         if (this.Ctype !="Dummy"){
