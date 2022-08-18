@@ -1,22 +1,28 @@
  //accessing html elements
 const canvas = document.getElementById("mycanvas");
+const em = document.getElementById("emulator");
 let animation;
 let bestCar=[];
 let bname="BestBrain";
 let generation_level = 0;
 let timer = 3000;
 let score = 0;
+let totalcars = 100;
 
 
 window.onload = function(){
     let brain = findLocalItems(bname);
-    Start_Emulator(5,100,0.1,brain);
-   
+    Start_Emulator(5,totalcars,0.1,brain);
 }
 
 //Basic Controls//
 function Reload(){
-    window.location.reload()
+    //window.location.reload();
+    window.cancelAnimationFrame(animation);
+    let brain =  findLocalItems(bname);
+    timer = 3000;
+    Start_Emulator(5,totalcars,0.1,brain);
+
 }
 function Save(brainname = bname){
     // Remove(brainname);
@@ -108,7 +114,7 @@ function fitness(cars){
 
 function calculateScore(cars){
     cars.forEach((e)=>{
-        if(!e.damaged){
+        if(!e.damag){
             e.score = (e.y)*-0.5;
         }
     })
@@ -116,10 +122,15 @@ function calculateScore(cars){
     // let y = Math.floor(Math.abs(besty.y/1000));
     // besty.score += y  ;
     // console.log(besty.score);
-    let bspeed = cars.find(c=>c.speed == Math.max( ...cars.map(c=>c.speed) ));
-    bspeed.score+=2
+    cars.forEach((e)=>{
+        if(e.speed >4.9){
+            e.score+=100;
+        }
+    })
+    //    bspeed.score+=50;
 
     let bestCar = cars.find(c=>c.score == Math.max( ...cars.map(c=>c.score) ));
+    // console.log(bestCar.speed)
     return bestCar;
 
 }
@@ -155,23 +166,24 @@ function Start_Emulator(sensor_range,population,mutate,brain){
     
     const traffic = CreateTraffic(road);
 
-
 animate();
+return
 
 function animate(){
-    let totalcars = cars.length
+    let totalcars = cars.length;
     cars.forEach((e)=>{
         if(e.damage){
             totalcars-=1;
         }
-    })
+    });
+    
+
     if (timer==0|| totalcars==0){
         Save()
         Reload();
         return
     }
     timer-=1;
-    // console.log(timer);
     //traffic cars
     traffic.forEach(e=>e.update(road.borders,[]));
     //AI Cars
@@ -192,7 +204,8 @@ function animate(){
     ctx.globalAlpha=1;
     bestCar[0].draw(ctx,true);
 
-    anim = requestAnimationFrame(animate);
+    animation = requestAnimationFrame(animate);
+    return false;
 }
     
 }

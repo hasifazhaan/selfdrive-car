@@ -4,7 +4,7 @@ class Car{
         this.y = y
         this.height = height
         this.width  =width
-        this.speed = 0
+        this.speed = 0;
         this.accl = 0.25
         this.maxspeed = maxspeed;
         this.friction=0.05
@@ -142,6 +142,7 @@ class Car{
     draw(ctx,drawSensor=false){
         if (this.damage){
             ctx.globalAlpha = 0.4;
+            this.speed=0;
         }
         else{
             ctx.globalAlpha = 1;
