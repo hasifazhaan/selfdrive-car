@@ -89,7 +89,7 @@ class Level{
                 sum += level.input[j]*level.weight[j][i];
             }
             
-            level.output[i] = this.ActivationFunction(sum,4);
+            level.output[i] = this.ActivationFunction(sum,1);
             
         }
         

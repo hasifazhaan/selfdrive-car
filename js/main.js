@@ -4,13 +4,13 @@ let animation;
 let bestCar=[];
 let bname="BestBrain";
 let generation_level = 0;
-let timer = 800;
+let timer = 3000;
 let score = 0;
 
 
 window.onload = function(){
     let brain = findLocalItems(bname);
-    Start_Emulator(5,2,0.1,brain);
+    Start_Emulator(5,100,0.1,brain);
    
 }
 
@@ -70,7 +70,7 @@ function getRandomNumber(arr) {
   }
 
 function GetRandomPosition(carsNo){
-    let numbersArray = createArrayOfNumber(500,4000,400);
+    let numbersArray = createArrayOfNumber(500,carsNo*500,400);
     let Lane_No=[];
     let Y_pos=[];
     for(let i=0;i<carsNo;i++){
@@ -107,16 +107,19 @@ function fitness(cars){
 }
 
 function calculateScore(cars){
-    cars.forEach((e)=>(!e.damage && )?e.score+=2:e.score);
+    cars.forEach((e)=>{
+        if(!e.damaged){
+            e.score = (e.y)*-0.5;
+        }
+    })
     // let besty = cars.find(c=>c.y == Math.min( ...cars.map(c=>c.y) ));
     // let y = Math.floor(Math.abs(besty.y/1000));
     // besty.score += y  ;
     // console.log(besty.score);
-    // let bspeed = cars.find(c=>c.speed == Math.max( ...cars.map(c=>c.speed) ));
-    // bspeed.score+=1
+    let bspeed = cars.find(c=>c.speed == Math.max( ...cars.map(c=>c.speed) ));
+    bspeed.score+=2
 
     let bestCar = cars.find(c=>c.score == Math.max( ...cars.map(c=>c.score) ));
-    console.log(bestCar.score)
     return bestCar;
 
 }
@@ -156,7 +159,13 @@ function Start_Emulator(sensor_range,population,mutate,brain){
 animate();
 
 function animate(){
-    if (timer==0){
+    let totalcars = cars.length
+    cars.forEach((e)=>{
+        if(e.damage){
+            totalcars-=1;
+        }
+    })
+    if (timer==0|| totalcars==0){
         Save()
         Reload();
         return
