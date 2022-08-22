@@ -78,6 +78,7 @@ header>h1{
     background-color: rgb(173, 171, 171);
     height: 100%;
 }
+
 .details{
     position: absolute;
     top:15pc;
@@ -85,4 +86,9 @@ header>h1{
     color: #fff;
     left: 0;
     margin:2%
+}
+
+#Score{
+    font-size:2pc;
+    color: #fff;    
 }

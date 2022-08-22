@@ -1,6 +1,8 @@
  //accessing html elements
 const canvas = document.getElementById("mycanvas");
-const em = document.getElementById("emulator");
+const score_dis = document.getElementById("Score");
+
+
 let animation;
 let bestCar=[];
 let bname="BestBrain";
@@ -11,6 +13,7 @@ let totalcars = 100;
 
 
 window.onload = function(){
+    canvas.width = (window.innerWidth <500)? window.innerWidth-50 :500;
     let brain = findLocalItems(bname);
     Start_Emulator(5,totalcars,0.1,brain);
 }
@@ -52,10 +55,14 @@ function CreateTraffic(road){
     let n=15;
     let [Lane,Y] = GetRandomPosition(n)
     for(let i=0;i<n;i++){
-        traffic.push(new Car(road.getLaneCenter(Lane[i]),Y[i],100,200,"Dummy",0,3));
+        traffic.push(new Car(road.getLaneCenter(Lane[i]),Y[i],road.laneWidth-60,road.laneWidth+10,"Dummy",0,3));
     }
      return traffic;
-    
+}
+
+function takeover(road){
+    let takeover = [];
+    let n = 15;
 }
 //............//
 
@@ -111,23 +118,12 @@ function fitness(cars){
     );
     return bestCar;
 }
-
 function calculateScore(cars){
     cars.forEach((e)=>{
-        if(!e.damag){
-            e.score = (e.y)*-0.5;
+        if(!e.damage){
+            e.score = (e.y)*-0.0005;
         }
     })
-    // let besty = cars.find(c=>c.y == Math.min( ...cars.map(c=>c.y) ));
-    // let y = Math.floor(Math.abs(besty.y/1000));
-    // besty.score += y  ;
-    // console.log(besty.score);
-    cars.forEach((e)=>{
-        if(e.speed >4.9){
-            e.score+=100;
-        }
-    })
-    //    bspeed.score+=50;
 
     let bestCar = cars.find(c=>c.score == Math.max( ...cars.map(c=>c.score) ));
     // console.log(bestCar.speed)
@@ -143,7 +139,7 @@ function calculateScore(cars){
 
 function Start_Emulator(sensor_range,population,mutate,brain){
     generation_level++;
-    canvas.width = 500;
+   
     const ctx = canvas.getContext("2d");
     //creating road and car instance
     const road=new Road(canvas.width/2,canvas.width*.9,laneCount=3); 
@@ -165,6 +161,7 @@ function Start_Emulator(sensor_range,population,mutate,brain){
     }
     
     const traffic = CreateTraffic(road);
+    const bonus  = takeover(road);
 
 animate();
 return
@@ -176,8 +173,6 @@ function animate(){
             totalcars-=1;
         }
     });
-    
-
     if (timer==0|| totalcars==0){
         Save()
         Reload();
@@ -190,7 +185,8 @@ function animate(){
     cars.forEach(e=>e.update(road.borders,traffic));
 
     bestCar[0] = calculateScore(cars);
-
+    score_dis.innerHTML = "Score:"+Math.floor(bestCar[0].score) + "<br>Timer:"+ timer+ "<br>Total Cars:"+totalcars;
+    
     //move camera.
     canvas.height = window.innerHeight;
     ctx.translate(0,-bestCar[0].y+canvas.height*0.7);
