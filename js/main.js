@@ -53,16 +53,31 @@ function CreateCarz(num,road,sensor_range){
 function CreateTraffic(road){
     let traffic=[];
     let n=15;
+    let empty_pos = [];
     let [Lane,Y] = GetRandomPosition(n)
     for(let i=0;i<n;i++){
         traffic.push(new Car(road.getLaneCenter(Lane[i]),Y[i],road.laneWidth-60,road.laneWidth+10,"Dummy",0,3));
+        let  arr = [0,1,2];
+        arr = arr.filter(function(item) {
+            return item !== Lane[i];
+        });
+        empty_pos.push([arr,Y[i]]);
+
     }
-     return traffic;
+    let freetake=takeover(road,empty_pos);
+
+    return [traffic,freetake];
 }
 
-function takeover(road){
-    let takeover = [];
-    let n = 15;
+function takeover(road,pos){
+    let em = [];
+    for(let i=0;i<pos.length;i++){
+        for (let j=0;j<pos[i].length;j++){
+            em.push(new Car(road.getLaneCenter(pos[i][0][j]),pos[i][1],50,50,"takeover",0,3));
+        }
+
+    }
+    return em;
 }
 //............//
 
@@ -160,8 +175,8 @@ function Start_Emulator(sensor_range,population,mutate,brain){
 
     }
     
-    const traffic = CreateTraffic(road);
-    const bonus  = takeover(road);
+    const [traffic,freetake] = CreateTraffic(road);
+    // const bonus  = takeover(road);
 
 animate();
 return
@@ -181,6 +196,7 @@ function animate(){
     timer-=1;
     //traffic cars
     traffic.forEach(e=>e.update(road.borders,[]));
+    freetake.forEach(e=>e.update(road.borders,[]));
     //AI Cars
     cars.forEach(e=>e.update(road.borders,traffic));
 
@@ -193,6 +209,7 @@ function animate(){
     road.draw(ctx);
 
     traffic.forEach(e=>e.draw(ctx));
+    freetake.forEach(e=>e.draw(ctx));
 
     ctx.globalAlpha=0.5;
     cars.forEach(e=>e.draw(ctx));
