@@ -37,6 +37,7 @@ class Car{
             this.#move();
             this.poly = this.#carsize();
             this.damage = this.#assessdamage(roadBorders,traffic);
+
             if(this.sensor){
                 this.sensor.update(roadBorders,traffic);
                 const offset = this.sensor.readings.map(s=>{ 
@@ -57,7 +58,7 @@ class Car{
         
             }   
         }
-
+        
     }
 
     #assessdamage(roadBorders,traffic){
@@ -68,6 +69,11 @@ class Car{
         }
         for(let i =0;i<traffic.length;i++){
             if (polysIntersect(this.poly,traffic[i].poly)){
+                if(this.Ctype =="takeover"){
+                    traffic[i].score +=2;
+                    // console.log(this.score)
+                    return true;
+                }
                 return true;
             }
         }
@@ -144,8 +150,7 @@ class Car{
 
     draw(ctx,drawSensor=false){
         if (this.damage){
-            ctx.globalAlpha = 0.4;
-            this.speed=0;
+            return true;
         }
         else{
             ctx.globalAlpha = 1;

@@ -136,12 +136,11 @@ function fitness(cars){
 function calculateScore(cars){
     cars.forEach((e)=>{
         if(!e.damage){
-            e.score = (e.y)*-0.0005;
+            let inc_score = (-e.y/1000)<0 ?0:-e.y/1000;
+            e.score += inc_score/1000;
         }
     })
-
     let bestCar = cars.find(c=>c.score == Math.max( ...cars.map(c=>c.score) ));
-    // console.log(bestCar.speed)
     return bestCar;
 
 }
@@ -177,7 +176,6 @@ function Start_Emulator(sensor_range,population,mutate,brain){
     
     const [traffic,freetake] = CreateTraffic(road);
     // const bonus  = takeover(road);
-
 animate();
 return
 
@@ -196,9 +194,9 @@ function animate(){
     timer-=1;
     //traffic cars
     traffic.forEach(e=>e.update(road.borders,[]));
-    freetake.forEach(e=>e.update(road.borders,[]));
     //AI Cars
     cars.forEach(e=>e.update(road.borders,traffic));
+    freetake.forEach(e=>e.update(road.borders,cars));
 
     bestCar[0] = calculateScore(cars);
     score_dis.innerHTML = "Score:"+Math.floor(bestCar[0].score) + "<br>Timer:"+ timer+ "<br>Total Cars:"+totalcars;
@@ -212,7 +210,7 @@ function animate(){
     freetake.forEach(e=>e.draw(ctx));
 
     ctx.globalAlpha=0.5;
-    cars.forEach(e=>e.draw(ctx));
+    cars.forEach(e=>{e.draw(ctx)});
     
     ctx.globalAlpha=1;
     bestCar[0].draw(ctx,true);
