@@ -109,6 +109,21 @@ function GetRandomPosition(carsNo){
     return([Lane_No,Y_pos]); 
 }
 
+
+function removeDamagedCars(cars){
+    let i=0;
+    while(i<cars.length){
+        if(cars[i].damage==true){
+            cars.splice(i,1);
+        }
+        else{
+            ++i;
+        }
+    }
+    console.log(cars.length);
+    return cars;
+
+}
 //................//
 
 
@@ -137,7 +152,7 @@ function calculateScore(cars){
     cars.forEach((e)=>{
         if(!e.damage){
             let inc_score = (-e.y/1000)<0 ?0:-e.y/1000;
-            e.score += inc_score/1000;
+            e.score += inc_score;
         }
     })
     let bestCar = cars.find(c=>c.score == Math.max( ...cars.map(c=>c.score) ));
@@ -180,12 +195,13 @@ animate();
 return
 
 function animate(){
+    cars = removeDamagedCars(cars);
     let totalcars = cars.length;
-    cars.forEach((e)=>{
-        if(e.damage){
-            totalcars-=1;
-        }
-    });
+    // cars.forEach((e)=>{
+    //     if(e.damage){
+    //         totalcars-=1;
+    //     }
+    // });
     if (timer==0|| totalcars==0){
         Save()
         Reload();
@@ -199,7 +215,7 @@ function animate(){
     freetake.forEach(e=>e.update(road.borders,cars));
 
     bestCar[0] = calculateScore(cars);
-    score_dis.innerHTML = "Score:"+Math.floor(bestCar[0].score) + "<br>Timer:"+ timer+ "<br>Total Cars:"+totalcars;
+    score_dis.innerHTML = "Gene:"+generation_level+"<br>Score:"+Math.floor(bestCar[0].score) + "<br>Timer:"+ timer+ "<br>Total Cars:"+totalcars;
     
     //move camera.
     canvas.height = window.innerHeight;
@@ -211,6 +227,7 @@ function animate(){
 
     ctx.globalAlpha=0.5;
     cars.forEach(e=>{e.draw(ctx)});
+    
     
     ctx.globalAlpha=1;
     bestCar[0].draw(ctx,true);
