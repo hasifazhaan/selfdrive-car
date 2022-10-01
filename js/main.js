@@ -20,11 +20,13 @@ window.onload = function(){
 
 //Basic Controls//
 function Reload(){
+
     //window.location.reload();
     window.cancelAnimationFrame(animation);
     let brain =  findLocalItems(bname);
     timer = 3000;
     Start_Emulator(5,totalcars,0.1,brain);
+
 
 }
 function Save(brainname = bname){
@@ -80,6 +82,7 @@ function takeover(road,pos){
 
     }
     return em;
+
 }
 //............//
 
@@ -139,6 +142,7 @@ function TopY(cars){
 }
 
 //to Work on /...................................
+
 function fitness(cars,no){
     let car;
     switch (no){
@@ -169,6 +173,7 @@ function Score(cars){
     })
     let bestCar = cars.find(c=>c.score == Math.max( ...cars.map(c=>c.score)));
     
+
     return bestCar;
 
 }
