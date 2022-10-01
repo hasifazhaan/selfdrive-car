@@ -151,6 +151,7 @@ class Car{
     draw(ctx,drawSensor=false){
         if (this.damage){
             return
+
         }
         ctx.save();
         ctx.translate(this.x,this.y);
