@@ -150,10 +150,7 @@ class Car{
 
     draw(ctx,drawSensor=false){
         if (this.damage){
-            return true;
-        }
-        else{
-            ctx.globalAlpha = 1;
+            return
         }
         ctx.save();
         ctx.translate(this.x,this.y);

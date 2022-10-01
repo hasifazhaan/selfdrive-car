@@ -29,6 +29,8 @@ function Reload(){
 }
 function Save(brainname = bname){
     // Remove(brainname);
+    
+
     localStorage.setItem(brainname,JSON.stringify(bestCar[0].brain));
 }
 function Remove(brainname=bname){
@@ -73,7 +75,7 @@ function takeover(road,pos){
     let em = [];
     for(let i=0;i<pos.length;i++){
         for (let j=0;j<pos[i].length;j++){
-            em.push(new Car(road.getLaneCenter(pos[i][0][j]),pos[i][1],50,50,"takeover",0,3));
+            em.push(new Car(road.getLaneCenter(pos[i][0][j]),pos[i][1],80,80,"takeover",0,3));
         }
 
     }
@@ -120,7 +122,6 @@ function removeDamagedCars(cars){
             ++i;
         }
     }
-    console.log(cars.length);
     return cars;
 
 }
@@ -128,34 +129,46 @@ function removeDamagedCars(cars){
 
 
 //Fitness Functions.....///
-function BestCarNow(cars){
+function TopY(cars){
     let bestCar = cars.find(
         c=>c.y == Math.min( ...cars.map(c=>c.y))
     );
-    let b2 = cars[parseInt(Math.random()*(cars.length))];
 
     return bestCar
 
 }
 
 //to Work on /...................................
-function fitness(cars){
-    bestCar = cars.find(
-        c=>c.speed == Math.max( ...cars.map(c=>c.speed) )
-        && (
-            c=>c.y == Math.min( ...cars.map(c=>c.y))
-        )
-    );
-    return bestCar;
+function fitness(cars,no){
+    let car;
+    switch (no){
+        case 1:
+           car= TopY(cars);
+            break;
+        case 2:
+           car = Score(cars);
+            break;
+    }
+    bestCar[1]={score:0}
+    if(bestCar[0]){
+        sc=Math.max(bestCar[1].score,bestCar[0].score,car.score)
+        bestCar[1] = cars.find(c=>c.score == sc);
+    }
+
+//     for (let i=0;i<bestCar[1].brain.levels[0].input)
+//    console.log(bestCar[1].brain.levels[0].o)
+    
+    return car;
 }
-function calculateScore(cars){
+function Score(cars){
     cars.forEach((e)=>{
         if(!e.damage){
-            let inc_score = (-e.y/1000)<0 ?0:-e.y/1000;
+            let inc_score = (-e.y/1000)<0 ?0:-e.y/100000;
             e.score += inc_score;
         }
     })
-    let bestCar = cars.find(c=>c.score == Math.max( ...cars.map(c=>c.score) ));
+    let bestCar = cars.find(c=>c.score == Math.max( ...cars.map(c=>c.score)));
+    
     return bestCar;
 
 }
@@ -197,11 +210,6 @@ return
 function animate(){
     cars = removeDamagedCars(cars);
     let totalcars = cars.length;
-    // cars.forEach((e)=>{
-    //     if(e.damage){
-    //         totalcars-=1;
-    //     }
-    // });
     if (timer==0|| totalcars==0){
         Save()
         Reload();
@@ -214,7 +222,7 @@ function animate(){
     cars.forEach(e=>e.update(road.borders,traffic));
     freetake.forEach(e=>e.update(road.borders,cars));
 
-    bestCar[0] = calculateScore(cars);
+    bestCar[0] = fitness(cars,2);
     score_dis.innerHTML = "Gene:"+generation_level+"<br>Score:"+Math.floor(bestCar[0].score) + "<br>Timer:"+ timer+ "<br>Total Cars:"+totalcars;
     
     //move camera.

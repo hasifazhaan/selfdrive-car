@@ -15,11 +15,39 @@
         <div class="Container-btn" id="Main-Controls">
             <button class="btn" onclick="Reload()">Reload</button>
             <button class="btn" onclick="Save()">Save Brain</button>
-            <button class="btn" onclick="Remove()">Remove Brain</button>
+            <button class="btn" onclick="Remove()">New Brain</button>
             <span id="Score">0</span>
-        
         </div>
         <canvas id="mycanvas"></canvas>
+    </div>
+
+    <div class="controllers">
+        <div>
+            <label> Sensors:</label>
+            <input type="range" class="slider "/>
+            <span>0</span>
+            <br>
+            <label>Mutation Level</label>
+            <input type="range" class="slider "/>
+            <span>0</span>
+            <br>
+            <label>Total Cars</label>
+            <input type="range" class="slider "/>
+            <span>0</span>
+            <br>
+            <label>Fitness Function</label>
+            <div>
+                <input type="radio"  value="Y"/>
+                <input type="radio"  value="Y"/>
+
+            </div>
+            
+            <br>
+            <button class="btn">Go</button>
+
+
+        </div>
+        
     </div>
 
     <script src="./js/utils.js"></script>
