@@ -10,6 +10,7 @@ class Control{
                 this.#addKeyboardListener();
                 break;
             case "Dummy":
+            case "takeover":
                 this.front = true;
                 break;
 
