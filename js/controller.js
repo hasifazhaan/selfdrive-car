@@ -12,5 +12,7 @@ function restartWithSettings(){
     let mutationlevel = parseInt(document.getElementById("mutVal").innerText);
     let totalcars= parseInt(document.getElementById("totalCarVal").innerText);
     let fitness = document.getElementsByName("fitness")[0].checked ? 1 :0 ;
-    console.log(sensors,mutationlevel,totalcars,fitness);
+    setSettingValue(totalcars,sensors,mutationlevel,fitness);
+  
+
 }

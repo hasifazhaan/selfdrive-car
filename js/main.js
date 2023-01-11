@@ -24,6 +24,15 @@ window.onload = function(){
     Start_Emulator(sensor,totalcars,mutationLevel,brain,fitnessfun);
 }
 
+function setSettingValue(tcars,s,mlevel,ffun){
+    totalcars = tcars;
+    sensor  = s;
+    mutationLevel = mlevel;
+    fitnessfun = ffun;
+    generation_level = 0;
+    Reload();
+}
+
 //Basic Controls//
 function Reload(){
 
