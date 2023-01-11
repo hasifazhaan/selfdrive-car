@@ -7,13 +7,14 @@
   
   .slider,#brains {
     -webkit-appearance: none;
+    appearance:  none;
     width: 60%;
-    height: 20px;
+    height: 3px;
     background: #d3d3d3;
     outline: none;
     opacity: 0.7;
     -webkit-transition: .2s;
-    transition: opacity .2s;
+    transition: all .2s ease-out;
     margin:2% 4%;
   }
   
@@ -24,17 +25,23 @@
   .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 25px;
-    height: 25px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
-    background: #7c1dca;
+    background: #b32a41;
     cursor: pointer;
+    transition: all .2s ease-out;
+
+  }
+  .slider::-webkit-slider-thumb:hover{
+    width: 20px;
+    height: 20px; 
   }
   
   .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #c923eb;
+    width: 15px;
+    height: 15px;
+    background: #b32a41;
     cursor: pointer;
   }
   .slidecontainer>p{
