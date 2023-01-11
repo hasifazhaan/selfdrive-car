@@ -2,6 +2,13 @@
 ##  Overview:
 To make a self driving car using Genetic Algorithm.
 This is a Javascript Web based genentic algorithm. 
+It revolves around creating a neural network of 2 levels.
+
+
+
+### No Additional dependencies are added in this project . created via vanilla javascript.
+
+
 
 Each round consist of 100 cars and timer of 30 seconds , All Car which moves random at the start. As It Finds the path and overcomes the hurdles the score of each car increases with respect to its "Y" distance value 
 
@@ -30,14 +37,37 @@ Fitness Function are used to select the best car from the population. The Select
 
 ## Fitness Function
 ###      1.Top most Y distance (Y Distance):
-=======
+=======<br>
 This uses the the distance travelled by the car to select the best car.
 This Converts the "y" value of the sreen resolution to a postive value and then the maximum of "y" value respect to each car is considered and best car is selected after each generation
 
 
 ###      2.Top Most Score (Score):
 =======
+<br>
 This uses the top Score to select the best car. This is Calculate by using the  top most y distance and the number of takeovers. This Makes that the car doesn't stand at one place  behind a hurdle. This is an advance version of the 1st fitness function .This fitness function helps to create and select the best car which are better in overtaking and reach the destination faster with the help of score.
 
 ![](res/Pointer.png)
 ### Take over
+
+
+## Activation And Graident Desent 
+ 
+
+ It has coded with 4 different activation functions.
+ 1.Binary step
+ 2.sigmoid
+ 3.HyperBoic Tangent
+ 4.reLU
+
+ In which sigmoid gives best result in this type of the scenario where trial and error is required.
+
+
+
+## Usuage
+Download the packages from the source and upzip it  (OR) Clone the repository via command
+
+``` 
+git clone "https://github.com/hasifazhaan/selfdrive-car.git"
+```
+goto the source file and open ```index.html``` file in web browser. 

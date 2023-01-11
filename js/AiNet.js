@@ -52,6 +52,7 @@ class NN{
     
 }
 class Level{
+    
     constructor(inputCount,outputCount){
         this.input = new Array(inputCount);
         this.output  = new Array(outputCount);
@@ -63,6 +64,7 @@ class Level{
         }
 
         Level.#randombrain(this);
+       
     }
     static #randombrain(level){
         for(let i=0;i<level.input.length;i++){
