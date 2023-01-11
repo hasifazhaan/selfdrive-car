@@ -9,13 +9,19 @@ let bname="BestBrain";
 let generation_level = 0;
 let timer = 3000;
 let score = 0;
+
+
 let totalcars = 100;
+let sensor = 5;
+let mutationLevel = 0.1;
+let fitnessfun = 1;
+
 
 
 window.onload = function(){
     canvas.width = (window.innerWidth <500)? window.innerWidth-50 :500;
     let brain = findLocalItems(bname);
-    Start_Emulator(5,totalcars,0.1,brain);
+    Start_Emulator(sensor,totalcars,mutationLevel,brain,fitnessfun);
 }
 
 //Basic Controls//
@@ -25,7 +31,7 @@ function Reload(){
     window.cancelAnimationFrame(animation);
     let brain =  findLocalItems(bname);
     timer = 3000;
-    Start_Emulator(5,totalcars,0.1,brain);
+    Start_Emulator(sensor,totalcars,mutationLevel,brain,fitnessfun);
 
 
 }
@@ -146,10 +152,10 @@ function TopY(cars){
 function fitness(cars,no){
     let car;
     switch (no){
-        case 1:
+        case 0:
            car= TopY(cars);
             break;
-        case 2:
+        case 1:
            car = Score(cars);
             break;
     }
@@ -184,14 +190,14 @@ function Score(cars){
 
 
 
-function Start_Emulator(sensor_range,population,mutate,brain){
+function Start_Emulator(sensor_range,population,mutate,brain,fitlevel){
     generation_level++;
    
     const ctx = canvas.getContext("2d");
     //creating road and car instance
     const road=new Road(canvas.width/2,canvas.width*.9,laneCount=3); 
 
-    const N=population;
+    const N=population;fitnessfun
     
     let cars = CreateCarz(N,road,sensor_range);
     //get best car from storage
@@ -227,7 +233,7 @@ function animate(){
     cars.forEach(e=>e.update(road.borders,traffic));
     freetake.forEach(e=>e.update(road.borders,cars));
 
-    bestCar[0] = fitness(cars,2);
+    bestCar[0] = fitness(cars,fitlevel);
     score_dis.innerHTML = "Gene:"+generation_level+"<br>Score:"+Math.floor(bestCar[0].score) + "<br>Timer:"+ timer+ "<br>Total Cars:"+totalcars;
     
     //move camera.
