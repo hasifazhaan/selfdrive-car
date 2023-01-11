@@ -4,7 +4,7 @@ class Car{
         this.y = y
         this.height = height
         this.width  =width
-        this.speed = 0
+        this.speed = 0;
         this.accl = 0.25
         this.maxspeed = maxspeed;
         this.friction=0.05
@@ -12,18 +12,21 @@ class Car{
         this.damage = false;
         this.poly = 0;
         this.Ctype = Ctype;
-        this.takeover=0;
+        this.score=0;
         this.useBrain = Ctype=="AI";
         this.car_img = new Image()
-        if (this.Ctype !="Dummy"){
+        if (this.Ctype =="Dummy"){
+            this.car_img.src ="./res/TrafficCar.png"; 
+        }
+        else if (this.Ctype=="takeover"){
+             this.car_img.src="res/Pointer.png";
+        }
+        else{
             this.car_img.src="./res/TrainCar.png";
             this.sensor = new Sensors(this,sensorRay);
             this.brain = new NN(
                 [this.sensor.rayCount,this.sensor.rayCount*2,4]
             );
-        }
-        else{
-            this.car_img.src ="./res/TrafficCar.png"; 
         }
         
         this.control = new Control(Ctype);
@@ -34,6 +37,7 @@ class Car{
             this.#move();
             this.poly = this.#carsize();
             this.damage = this.#assessdamage(roadBorders,traffic);
+
             if(this.sensor){
                 this.sensor.update(roadBorders,traffic);
                 const offset = this.sensor.readings.map(s=>{ 
@@ -54,7 +58,7 @@ class Car{
         
             }   
         }
-
+        
     }
 
     #assessdamage(roadBorders,traffic){
@@ -65,6 +69,11 @@ class Car{
         }
         for(let i =0;i<traffic.length;i++){
             if (polysIntersect(this.poly,traffic[i].poly)){
+                if(this.Ctype =="takeover"){
+                    traffic[i].score +=2;
+                    // console.log(this.score)
+                    return true;
+                }
                 return true;
             }
         }
@@ -141,11 +150,8 @@ class Car{
 
     draw(ctx,drawSensor=false){
         if (this.damage){
-            ctx.globalAlpha = 0.4;
-            this.speed=0;
-        }
-        else{
-            ctx.globalAlpha = 1;
+            return
+
         }
         ctx.save();
         ctx.translate(this.x,this.y);

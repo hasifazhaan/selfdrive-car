@@ -49,7 +49,7 @@ function findLocalItems (query) {
         }
       }
     }
-    return results;
+    return results.length==0?false:JSON.stringify(results[0]['val'])
 }
 function CreateBrainOptions(){
     let brains = findLocalItems("Brain");

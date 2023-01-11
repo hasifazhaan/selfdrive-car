@@ -48,6 +48,7 @@ class NN{
             }
         });
     }
+
     
 }
 class Level{
@@ -81,22 +82,42 @@ class Level{
         }
 
         for(let i=0;i<level.output.length;i++){
-            let sum=0;
+
+            let sum=level.biases[i];
            
             for(let j=0;j<level.input.length;j++){
                 sum += level.input[j]*level.weight[j][i];
             }
             
-            if (sum>level.biases[i]){
-                level.output[i] = 1;
-
-            }
-            else{
-                level.output[i]=0;
-            }
+            level.output[i] = this.ActivationFunction(sum,1);
             
         }
         
         return level.output;
     }
+    static ActivationFunction(weightedInput,number=1){
+        switch(number){
+            case 1:
+                //binary Step
+                return(weightedInput>0)?1:0;
+            case 2:
+                //sigmoid
+                return (1/(1+Math.exp(-weightedInput)));
+            case 3:
+                //HyperBoic Tangent
+                let w_exp = Math.exp(2*weightedInput);
+                return(this.ActivationFunction( (w_exp-1)/(w_exp+1) ));
+            case 4:
+                //reLU
+                return( Math.max(0,weightedInput) ) ;
+            case 5:
+                //reLU
+                return(Math.log(1+Math.exp(weightedInput)) ) ;
+            case 6:
+                return 0;
+
+        }
+        
+    }
+    
 }
