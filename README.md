@@ -71,3 +71,5 @@ Download the packages from the source and upzip it  (OR) Clone the repository vi
 git clone "https://github.com/hasifazhaan/selfdrive-car.git"
 ```
 goto the source file and open ```index.html``` file in web browser. 
+
+Note: It is a prototype project from which the impovement can be made.
