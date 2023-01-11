@@ -8,9 +8,9 @@ for (let i=0;i<slider.length;i++){
 
 
 function restartWithSettings(){
-    let sensors = document.getElementById("sensorVal").value;
-    let mutationlevel = document.getElementById("mutVal").value;
-    let totalcars= document.getElementById("totalCarVal").value;
-    let fitness = document.getElementsByName("fitness");
+    let sensors = parseInt(document.getElementById("sensorVal").innerText);
+    let mutationlevel = parseInt(document.getElementById("mutVal").innerText);
+    let totalcars= parseInt(document.getElementById("totalCarVal").innerText);
+    let fitness = document.getElementsByName("fitness")[0].checked ? 1 :0 ;
     console.log(sensors,mutationlevel,totalcars,fitness);
 }
